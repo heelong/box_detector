@@ -1,0 +1,4 @@
+<launch>
+  	<node pkg="box_detector" type="point_cloud_publish" name="point_cloud" output="screen"/>
+	<node pkg="box_detector" type="point_cloud_subscriber" name="cloud_filter" output="screen"/>
+</launch>
