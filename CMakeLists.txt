@@ -13,7 +13,7 @@ include_directories(
 )
 
 add_executable(point_cloud_publish src/point_cloud_publish.cpp)
-add_executable(point_cloud_subscriber src/point_cloud_subscriber.cpp)
+add_executable(point_cloud_subscriber src/point_cloud_subscriber.h src/point_cloud_subscriber.cpp)
 
 target_link_libraries(point_cloud_publish ${catkin_LIBRARIES})
 target_link_libraries(point_cloud_subscriber ${catkin_LIBRARIES})
