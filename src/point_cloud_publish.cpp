@@ -68,7 +68,7 @@ void make_clouds(pcl::PointCloud<pcl::PointXYZ>::Ptr basic_cloud_ptr) {
   double sigma_plane_z = 0.2;
   double sigma_point[3] = {0.2,0.2,0.2};
   pcl::PointXYZ basic_point;
-  int total_point = POINT_SIZE + BOX_SIZE_ONE_PLANE*5;
+  int total_point = POINT_SIZE + BOX_SIZE_ONE_PLANE*6;
   basic_cloud_ptr->points.resize(total_point);
   for (size_t i = 0; i < POINT_SIZE; ++i)
   {
@@ -141,6 +141,18 @@ void make_clouds(pcl::PointCloud<pcl::PointXYZ>::Ptr basic_cloud_ptr) {
     basic_cloud_ptr->points[i].x = basic_point.x*cos_theta+basic_point.y*sin_theta+center_x;
     basic_cloud_ptr->points[i].y = basic_point.y*cos_theta-basic_point.x*sin_theta+center_y;
     basic_cloud_ptr->points[i].z = 1.0f;
+    addNoise(basic_cloud_ptr->points[i]);
+  }
+  count_1=count_2;
+  count_2=count_1+BOX_SIZE_ONE_PLANE;
+  //plane 6;  add the bottom of the box
+  for (size_t i = count_1; i < count_2; ++i)
+  {
+    basic_point.x = 1.0f * rand() / (RAND_MAX + 1.0f) - 0.5f;
+    basic_point.y = 1.0f * rand() / (RAND_MAX + 1.0f) - 0.5f;
+    basic_cloud_ptr->points[i].x = basic_point.x*cos_theta+basic_point.y*sin_theta+center_x;
+    basic_cloud_ptr->points[i].y = basic_point.y*cos_theta-basic_point.x*sin_theta+center_y;
+    basic_cloud_ptr->points[i].z = 0.0f;
     addNoise(basic_cloud_ptr->points[i]);
   }
   basic_cloud_ptr->width = (int)basic_cloud_ptr->points.size();
