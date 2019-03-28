@@ -13,13 +13,14 @@
 #include <pcl/filters/extract_indices.h>
 #include <pcl/ModelCoefficients.h>
 #include <iostream>
-class CloudHandler{
-public:
-  CloudHandler(){
+#include "point_cloud_subscriber.h"
+
+CloudHandler::CloudHandler(){
     pcl_sub = nh.subscribe("/cloud", 5,&CloudHandler::cloudCB,this);
     pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/cloud_filter", 5);
   }
-  void cloudCB(const sensor_msgs::PointCloud2& cloud_in){
+
+void CloudHandler::cloudCB(const sensor_msgs::PointCloud2& cloud_in){
     pcl::PointCloud<pcl::PointXYZ>cloud;
     pcl::PointCloud<pcl::PointXYZ>cloud_filter;
     sensor_msgs::PointCloud2 outPut;
@@ -61,12 +62,8 @@ public:
     pcl::toROSMsg(cloud_filter,outPut);
     outPut.header.frame_id = "point_cloud";
     pcl_pub.publish(outPut);
-  }
-private:
-  ros::NodeHandle nh;
-  ros::Subscriber pcl_sub;
-  ros::Publisher pcl_pub;
-};
+}
+
 int main(int argc, char** argv) {
   ros::init(argc, argv, "point_cloud_subscriber"); //node name
   std::cout << "Generating example point_cloud_subscriber" << std::endl;
